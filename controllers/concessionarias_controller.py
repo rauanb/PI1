@@ -9,7 +9,7 @@ class ConcessionariaController(Resource):
         lconcessionarias=Concessionarias.buscar()
         for concessionaria in lconcessionarias:
             jsn = {
-                "CC_ID:": concessionaria.CC_ID,
+                "CC_ID": concessionaria.CC_ID,
                 "CC_NOME": concessionaria.CC_NOME
             }
             lista_conessionaria.append(jsn)
@@ -28,4 +28,5 @@ class ConcessionariaController(Resource):
             "status": 0,
             "motivo": str(e)
             }
+            jsn_resposta.headers.add('Access-Control-Allow-Origin', '*')
             return jsn_resposta 
