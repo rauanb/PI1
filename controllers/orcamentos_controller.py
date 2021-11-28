@@ -4,11 +4,11 @@ from flask_restful import Resource, reqparse
 from datetime import datetime
 import json
 def investimento(consumo):
-    return consumo*60.00
+    return float(consumo)*60.00
 def carbono(consumo):
-    return consumo*0.086
+    return float(consumo)*0.086
 def temporetorno(consumo,te,tusd,investimento):
-    return int(investimento/((consumo*te) + (consumo*tusd)))
+    return int(investimento/((float(consumo)*float(te)) + (float(consumo)*float(tusd))))
 class OrcamentoController(Resource):
     @classmethod
     def get(self):
@@ -67,16 +67,14 @@ class OrcamentoController(Resource):
                     vorcamento['ORC_CONSUMO']
                 )
                 orcamento.update()
-            jsn_resposta = {
-                "id": int(idorcamento),
-                "motivo": "Orçamento Incluido com sucesso",
-                "Investimento": "R$ " +str(vinvestimento),
+            jsn_resposta = [{
+                "Investimento": "O valor do investimento será R$ " +str(vinvestimento),
                 "Carbono": "Deixarão de ser emitidos "+str(vcarbono) +" Kg de carbono por mês",
                 "Retorno": "Serão necessários " +str(vretorno) +" meses para o investimento ter retorno financeiro" 
-            }
+            }],200
         except Exception as e:
-            jsn_resposta = {
+            jsn_resposta = [{
             "status": 0,
             "motivo": str(e)
-            }
+            }]
         return jsn_resposta
