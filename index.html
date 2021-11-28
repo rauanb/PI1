@@ -135,7 +135,11 @@
                 <br><br>
                 <div class="inputBox">
                     <input type="tel" name="telefone" id="telefone" class="inputUser" required>
-                    <label for="email" class="labelInput">Celular</label>
+                    <label for="tel" class="labelInput">Celular</label>
+                <br><br>
+                <div class="inputBox">
+                    <input type="cep" name="cep" id="cep" class="inputUser" required>
+                    <label for="cep" class="labelInput">CEP</label>
                 <br><br>
                 <div class="inputBox">
                     <input type="email" name="email" id="email" class="inputUser" required>
@@ -166,24 +170,24 @@
                     <label for="lbconcessionaria" class="lbconcessionaria"><b>Concessionária</b></label>
                 </div>
                 <div class="combobox">
-                    <p id="demo" class="box"></p>
+                    <p id="demo" class="box" onload="loadcombo()"></p>
                     <script>
                         const dbParam = JSON.stringify({table:"concessionarias",limit:20});
                         const xmlhttp = new XMLHttpRequest();
                         xmlhttp.onload = function() {
-                          const myObj = JSON.parse(this.responseText);
-                          let text = "<select>"
-                          for (let x in myObj) {
+                            const myObj = JSON.parse(this.responseText);
+                            let text = "<select>"
+                            for (let x in myObj) {
                             text += "<option value="+myObj[x].CC_ID+">"+ myObj[x].CC_NOME;
-                          }
-                          text += "</select>"
-                          document.getElementById("demo").innerHTML = text;
+                            }
+                            text += "</select>"
+                            document.getElementById("demo").innerHTML = text;
                         }
                         xmlhttp.open("GET", "https://univesppi1.herokuapp.com/concessionarias");
                         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                         xmlhttp.send("x=" + dbParam);
                         console.log()
-                        </script>
+                    </script>
                 </div>
                 <div class="inputBox">
                     <input type="number" min="0.00" max="10000.00" step="0.01" name="te" id="te" class="inputUser" required>
@@ -195,14 +199,11 @@
                     <label for="tusd" class="labelInput"><b>Tarifa de Uso do Sistema de Distribuição (R$)</b></label>
                 </div>
                 <br><br>
-                <div class="inputBox">
-                    <input type="number" min="0.00" max="10000.00" step="0.01" name="area" id="area" class="inputUser" required>
-                    <label for="area" class="labelInput"><b>Área Média de Telhado (M²)</b></label>
-                </div>
-                <br><br>
-                <input type="submit" name="submit" id="submit">
+                <input type="button" onclick="sendJSON()" name="submit" id="submit" value="Enviar Orçamento">
+                <p id="texto"></p>
             </fieldset>
         </form>
     </div>
+    <script src="index.js"></script>
 </body>
 </html>
