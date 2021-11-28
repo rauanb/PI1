@@ -1,5 +1,6 @@
 from db import db
 from datetime import datetime
+from sqlalchemy.sql.expression import func
 
 class Orcamentos(db.Model):
   __tablename__ = 'ORCAMENTOS'
@@ -46,6 +47,13 @@ class Orcamentos(db.Model):
   @classmethod
   def buscar(cls):
     return db.session.query(Orcamentos).filter(Orcamentos.ORC_ID>0).order_by(Orcamentos.ORC_ID).all()
+  @classmethod
+  def maiorid(cls):
+    lista = db.session.query(func.max(Orcamentos.ORC_ID)).first()
+    if lista is not None:
+      return lista[0] if lista[0] is not None else 0
+    else:
+      return 0
   def save(self):
     db.session.add(self)
     db.session.commit()
